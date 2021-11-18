@@ -40,7 +40,7 @@ class CategoryScreen extends StatelessWidget {
                 color: Colors.grey,
               );
             },
-            itemCount: 5),
+            itemCount: categoryNotifier.categories.length),
       ),
     );
   }

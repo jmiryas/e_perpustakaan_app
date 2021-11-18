@@ -1,3 +1,4 @@
+import 'package:e_perpustakaan_app/providers/book_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (context) => CategoryNotifier(),
+          ),
+          ChangeNotifierProvider(
+            create: (context) => BookNotifier(),
           ),
         ],
         child: const MaterialApp(
