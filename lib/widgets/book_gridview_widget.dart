@@ -1,3 +1,4 @@
+import 'package:e_perpustakaan_app/screens/book_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -40,60 +41,72 @@ class BookGridviewWidget extends StatelessWidget {
       sliver: SliverGrid(
         delegate: SliverChildBuilderDelegate(
           (context, index) {
-            return Card(
-              child: SizedBox(
-                height: 350.0,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: 200.0,
-                      color: Colors.grey,
-                      child: Image(
-                        fit: BoxFit.cover,
-                        image: AssetImage(
-                          bookNotifier.books[index].image,
+            return GestureDetector(
+              onTap: () {
+                bookNotifier.changeCurrentIndex(index);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const BookDetailsScreen(),
+                  ),
+                );
+              },
+              child: Card(
+                child: SizedBox(
+                  height: 350.0,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.infinity,
+                        height: 200.0,
+                        color: Colors.grey,
+                        child: Image(
+                          fit: BoxFit.cover,
+                          image: AssetImage(
+                            bookNotifier.books[index].image,
+                          ),
                         ),
                       ),
-                    ),
-                    _buildContainerContent(
-                      45.0,
-                      Text(
-                        bookNotifier.books[index].title,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
+                      _buildContainerContent(
+                        45.0,
+                        Text(
+                          bookNotifier.books[index].title,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                    ),
-                    _buildContainerContent(
-                      30.0,
-                      Text(
-                        bookNotifier.books[index].information["Author"]!,
-                        textAlign: TextAlign.start,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                        style: const TextStyle(color: Colors.grey),
+                      _buildContainerContent(
+                        30.0,
+                        Text(
+                          bookNotifier.books[index].information["Author"]!,
+                          textAlign: TextAlign.start,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          style: const TextStyle(color: Colors.grey),
+                        ),
                       ),
-                    ),
-                    _buildContainerContent(
-                      25.0,
-                      _buildRating(
-                        bookNotifier.books[index].rate,
+                      _buildContainerContent(
+                        25.0,
+                        _buildRating(
+                          bookNotifier.books[index].rate,
+                        ),
                       ),
-                    ),
-                    _buildContainerContent(
-                      25.0,
-                      Text(
-                        "Stock: ${bookNotifier.books[index].stock}",
-                        textAlign: TextAlign.start,
+                      _buildContainerContent(
+                        25.0,
+                        Text(
+                          "Stock: ${bookNotifier.books[index].stock}",
+                          textAlign: TextAlign.start,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
