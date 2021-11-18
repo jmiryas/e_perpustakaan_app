@@ -21,10 +21,12 @@ class EmptyDeviceWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Image(
-                width: 200.0,
-                height: 200.0,
-                image: AssetImage("images/library.png"),
+              SizedBox(
+                width: width * 0.5,
+                height: height * 0.3,
+                child: const Image(
+                  image: AssetImage("images/library.png"),
+                ),
               ),
               const SizedBox(
                 height: 10.0,
