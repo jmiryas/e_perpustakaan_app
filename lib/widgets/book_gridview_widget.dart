@@ -1,15 +1,20 @@
-import 'package:e_perpustakaan_app/screens/book_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/book_notifier.dart';
+import '../providers/category_notifier.dart';
+import '../screens/book_details_screen.dart';
 
 class BookGridviewWidget extends StatelessWidget {
   const BookGridviewWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final categoryNotifier = Provider.of<CategoryNotifier>(context);
     final bookNotifier = Provider.of<BookNotifier>(context);
+
+    final filteredBooks = bookNotifier.getBookFiltered(
+        bookNotifier.books, categoryNotifier.categoryType);
 
     Widget _buildRating(int rate) {
       String rating = "";
@@ -66,14 +71,14 @@ class BookGridviewWidget extends StatelessWidget {
                         child: Image(
                           fit: BoxFit.cover,
                           image: AssetImage(
-                            bookNotifier.books[index].image,
+                            filteredBooks[index].image,
                           ),
                         ),
                       ),
                       _buildContainerContent(
                         45.0,
                         Text(
-                          bookNotifier.books[index].title,
+                          filteredBooks[index].title,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 2,
@@ -85,7 +90,7 @@ class BookGridviewWidget extends StatelessWidget {
                       _buildContainerContent(
                         30.0,
                         Text(
-                          bookNotifier.books[index].information["Author"]!,
+                          filteredBooks[index].information["Author"]!,
                           textAlign: TextAlign.start,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
@@ -95,13 +100,13 @@ class BookGridviewWidget extends StatelessWidget {
                       _buildContainerContent(
                         25.0,
                         _buildRating(
-                          bookNotifier.books[index].rate,
+                          filteredBooks[index].rate,
                         ),
                       ),
                       _buildContainerContent(
                         25.0,
                         Text(
-                          "Stock: ${bookNotifier.books[index].stock}",
+                          "Stock: ${filteredBooks[index].stock}",
                           textAlign: TextAlign.start,
                         ),
                       ),
@@ -111,7 +116,7 @@ class BookGridviewWidget extends StatelessWidget {
               ),
             );
           },
-          childCount: bookNotifier.books.length,
+          childCount: filteredBooks.length,
         ),
         gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,

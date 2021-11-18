@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../enum/category_enum.dart';
 import '../models/category_model.dart';
 
 class CategoryNotifier extends ChangeNotifier {
   int currentIndex = 0;
+  CategoryType _categoryType = CategoryType.all;
 
   final List<CategoryModel> _categories = [
     CategoryModel(
@@ -37,8 +38,17 @@ class CategoryNotifier extends ChangeNotifier {
     return _categories[currentIndex];
   }
 
+  CategoryType get categoryType {
+    return _categoryType;
+  }
+
   void changeCurrentIndex(int newIndex) {
     currentIndex = newIndex;
+    notifyListeners();
+  }
+
+  void changeCategoryType(CategoryType categoryType) {
+    _categoryType = categoryType;
     notifyListeners();
   }
 }

@@ -21,6 +21,8 @@ class CategoryScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               return GestureDetector(
                 onTap: () {
+                  categoryNotifier.changeCategoryType(
+                      categoryNotifier.categories[index].type);
                   categoryNotifier.changeCurrentIndex(index);
                   Navigator.pop(context);
                 },
