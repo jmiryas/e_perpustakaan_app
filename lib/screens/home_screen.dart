@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../screens/category_screen.dart';
+import '../providers/category_notifier.dart';
 import '../widgets/drawer_navigation_widget.dart';
 import '../widgets/show_sliver_appbar_widget.dart';
 
@@ -8,27 +11,38 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryNotifier = Provider.of<CategoryNotifier>(context);
+
     return Scaffold(
         drawer: const DrawerNavigationWidget(),
         body: DefaultTabController(
           length: 2,
           child: TabBarView(children: [
-            // This CustomScrollView display the Home tab content
             CustomScrollView(
               slivers: [
                 const ShowSliverAppBarWidget(
                   title: "e-Perpustakaan",
                 ),
-
-                // Anther sliver widget: SliverList
                 SliverList(
                   delegate: SliverChildListDelegate([
-                    Container(
-                      height: 400,
-                      child: Center(
-                        child: Text(
-                          'Home Tab',
-                          style: TextStyle(fontSize: 40),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CategoryScreen(),
+                          ),
+                        );
+                      },
+                      child: Container(
+                        height: 50.0,
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 10.0, horizontal: 20.0),
+                        child: Card(
+                          child: Center(
+                            child:
+                                Text(categoryNotifier.currentCategory.category),
+                          ),
                         ),
                       ),
                     ),
@@ -40,8 +54,6 @@ class HomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-
-            // This shows the Settings tab content
             CustomScrollView(
               slivers: [
                 const ShowSliverAppBarWidget(

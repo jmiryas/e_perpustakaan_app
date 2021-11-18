@@ -10,7 +10,7 @@ class ShowSliverAppBarWidget extends StatelessWidget {
     return SliverAppBar(
         snap: false,
         pinned: true,
-        floating: true,
+        // floating: true,
         centerTitle: true,
         title: Text(title),
         actions: [
