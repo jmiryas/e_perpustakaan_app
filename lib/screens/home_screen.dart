@@ -1,3 +1,4 @@
+import 'package:e_perpustakaan_app/widgets/empty_device_widget.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/book_category_widget.dart';
@@ -10,6 +11,9 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width;
+    double height = MediaQuery.of(context).size.height;
+
     return Scaffold(
         drawer: const DrawerNavigationWidget(),
         body: DefaultTabController(
@@ -29,26 +33,7 @@ class HomeScreen extends StatelessWidget {
                 const ShowSliverAppBarWidget(
                   title: "e-Perpustakaan",
                 ),
-
-                // Show other sliver stuff
-                SliverList(
-                  delegate: SliverChildListDelegate([
-                    Container(
-                      height: 600,
-                      color: Colors.blue[200],
-                      child: Center(
-                        child: Text(
-                          'Settings Tab',
-                          style: TextStyle(fontSize: 40),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      height: 1200,
-                      color: Colors.pink,
-                    ),
-                  ]),
-                ),
+                EmptyDeviceWidget(width: width, height: height)
               ],
             )
           ]),
