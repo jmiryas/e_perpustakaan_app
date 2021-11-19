@@ -80,28 +80,57 @@ class BookDetailsScreen extends StatelessWidget {
             const SizedBox(
               height: 5.0,
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(width / 2 - 30.0, 40.0),
+            Consumer<BookNotifier>(builder: (context, data, child) {
+              data.borrowedBooks.forEach((item) => print(item.title));
+
+              // print(data.getIsBorrowedBookExist(data.currentBook));
+
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(width / 2 - 30.0, 40.0),
+                    ),
+                    onPressed: data.currentBook.borrowed
+                        ? null
+                        : () {
+                            if (data.isBorrowedBookNotFull) {
+                              data.addBorrowedBook(data.currentBook);
+
+                              data.decreseBookStock(data.currentBook);
+
+                              data.changeBorrowedBook(data.currentBook);
+
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text("Buku berhasil ditambahkan!"),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(
+                                      "Borrowed book has reached the limit!"),
+                                ),
+                              );
+                            }
+                          },
+                    child: const Text("Borrow"),
                   ),
-                  onPressed: () {},
-                  child: const Text("Borrow"),
-                ),
-                const SizedBox(
-                  width: 10.0,
-                ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(width / 2 - 30.0, 40.0),
+                  const SizedBox(
+                    width: 10.0,
                   ),
-                  onPressed: () {},
-                  child: const Text("Notify Me"),
-                ),
-              ],
-            ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(width / 2 - 30.0, 40.0),
+                    ),
+                    onPressed: data.currentBook.borrowed ? null : () {},
+                    child: const Text("Notify Me"),
+                  ),
+                ],
+              );
+            }),
             const SizedBox(
               height: 5.0,
             ),

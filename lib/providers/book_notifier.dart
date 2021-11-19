@@ -1,10 +1,11 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 import '../models/book_model.dart';
 import '../enum/category_enum.dart';
 
 class BookNotifier extends ChangeNotifier {
   int _currentIndex = 0;
+  final int _maxBorrowedBook = 3;
 
   final List<BookModel> _books = [
     BookModel(
@@ -21,6 +22,7 @@ class BookNotifier extends ChangeNotifier {
         rate: 4,
         image: "images/adult_fiction_the_tokyo_zodiak_murderer.jpg",
         stock: 10,
+        currentStock: 5,
         categoryType: CategoryType.adultFictions),
     BookModel(
         title: "Surat Kematian (Death Notice) - Buku Kesatu",
@@ -36,6 +38,7 @@ class BookNotifier extends ChangeNotifier {
         rate: 4,
         image: "images/adult_fiction_surat_kematian.jpg",
         stock: 7,
+        currentStock: 4,
         categoryType: CategoryType.adultFictions),
     BookModel(
         title: "Pembunuhan di Rumah Miring (Murder in the Crooked House)",
@@ -51,6 +54,7 @@ class BookNotifier extends ChangeNotifier {
         rate: 4,
         image: "images/adult_fiction_murder_in_the_crooked_house.jpg",
         stock: 5,
+        currentStock: 2,
         categoryType: CategoryType.adultFictions),
     BookModel(
         title: "Mengelola Keuangan Pribadi",
@@ -66,6 +70,7 @@ class BookNotifier extends ChangeNotifier {
         rate: 4,
         image: "images/business_mengelola_keuangan_pribadi.jpg",
         stock: 4,
+        currentStock: 1,
         categoryType: CategoryType.businessAndInvesting),
     BookModel(
         title: "Sejarah Ringkas Terbaik Dunia Kuno Empat Benua",
@@ -82,6 +87,7 @@ class BookNotifier extends ChangeNotifier {
         image:
             "images/history_sejarah_ringkas_terbaik_dunia_kuno_empat_benua.jpg",
         stock: 4,
+        currentStock: 3,
         categoryType: CategoryType.history),
     BookModel(
       title: "Genom: Kisah Spesies Manusia Dalam 23 Bab",
@@ -97,9 +103,14 @@ class BookNotifier extends ChangeNotifier {
       rate: 4,
       image: "images/science_genom.jpg",
       stock: 6,
+      currentStock: 2,
       categoryType: CategoryType.science,
     ),
   ];
+
+  final List<BookModel> _borrowedBooks = [];
+
+  // * All books.
 
   List<BookModel> get books {
     return _books;
@@ -109,10 +120,24 @@ class BookNotifier extends ChangeNotifier {
     return _books[_currentIndex];
   }
 
+  // * Borrowed books.
+
+  List<BookModel> get borrowedBooks {
+    return _borrowedBooks;
+  }
+
+  int get maxBorrowedBook {
+    return _maxBorrowedBook;
+  }
+
+  // * Index of books.
+
   void changeCurrentIndex(int newIndex) {
     _currentIndex = newIndex;
     notifyListeners();
   }
+
+  // * Books based on selected category.
 
   List<BookModel> getBookFiltered(
       List<BookModel> books, CategoryType categoryType) {
@@ -138,5 +163,56 @@ class BookNotifier extends ChangeNotifier {
       default:
         return books.toList();
     }
+  }
+
+  // * Add borrowed book.
+
+  void addBorrowedBook(BookModel bookModel) {
+    _borrowedBooks.add(bookModel);
+    notifyListeners();
+  }
+
+  // * Decrese current book stock
+
+  void decreseBookStock(BookModel bookModel) {
+    final index = _books.indexOf(bookModel);
+
+    _books[index] = BookModel(
+      title: bookModel.title,
+      summary: bookModel.summary,
+      information: bookModel.information,
+      rate: bookModel.rate,
+      image: bookModel.image,
+      currentStock: bookModel.currentStock - 1,
+      stock: bookModel.stock,
+      categoryType: bookModel.categoryType,
+    );
+
+    notifyListeners();
+  }
+
+  // * Borrowed book is full.
+
+  bool get isBorrowedBookNotFull {
+    return _borrowedBooks.length < _maxBorrowedBook;
+  }
+
+  // * Change borrowed book status.
+
+  void changeBorrowedBook(BookModel bookModel) {
+    final index = _books.indexOf(bookModel);
+
+    _books[index] = BookModel(
+        title: bookModel.title,
+        summary: bookModel.summary,
+        information: bookModel.information,
+        rate: bookModel.rate,
+        image: bookModel.image,
+        currentStock: bookModel.currentStock - 1,
+        stock: bookModel.stock,
+        categoryType: bookModel.categoryType,
+        borrowed: true);
+
+    notifyListeners();
   }
 }

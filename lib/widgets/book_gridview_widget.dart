@@ -106,7 +106,7 @@ class BookGridviewWidget extends StatelessWidget {
                       _buildContainerContent(
                         25.0,
                         Text(
-                          "Stock: ${filteredBooks[index].stock}",
+                          "Stock: ${filteredBooks[index].currentStock} / ${filteredBooks[index].stock}",
                           textAlign: TextAlign.start,
                         ),
                       ),

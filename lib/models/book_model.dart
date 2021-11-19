@@ -6,15 +6,22 @@ class BookModel {
   final Map<String, String> information;
   final int rate;
   final String image;
+  final int currentStock;
   final int stock;
   final CategoryType categoryType;
+  final bool notify;
+  final bool borrowed;
 
-  BookModel(
-      {required this.title,
-      required this.summary,
-      required this.information,
-      required this.rate,
-      required this.image,
-      required this.stock,
-      required this.categoryType});
+  BookModel({
+    required this.title,
+    required this.summary,
+    required this.information,
+    required this.rate,
+    required this.image,
+    required this.currentStock,
+    required this.stock,
+    required this.categoryType,
+    this.notify = false,
+    this.borrowed = false,
+  });
 }
