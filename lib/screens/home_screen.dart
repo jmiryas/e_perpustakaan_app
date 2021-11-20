@@ -1,5 +1,8 @@
+import 'package:e_perpustakaan_app/widgets/borrowed_book_gridview_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/book_notifier.dart';
 import '../widgets/empty_device_widget.dart';
 import '../widgets/book_category_widget.dart';
 import '../widgets/book_gridview_widget.dart';
@@ -13,6 +16,8 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
+
+    final bookNotifier = Provider.of<BookNotifier>(context);
 
     return Scaffold(
         drawer: const DrawerNavigationWidget(),
@@ -33,7 +38,9 @@ class HomeScreen extends StatelessWidget {
                 const ShowSliverAppBarWidget(
                   title: "e-Perpustakaan",
                 ),
-                EmptyDeviceWidget(width: width, height: height)
+                bookNotifier.borrowedBooks.isNotEmpty
+                    ? const BorrowedBookGridviewWidget()
+                    : EmptyDeviceWidget(width: width, height: height)
               ],
             )
           ]),
