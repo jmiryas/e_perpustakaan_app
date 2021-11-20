@@ -22,7 +22,7 @@ class BookNotifier extends ChangeNotifier {
         rate: 4,
         image: "images/adult_fiction_the_tokyo_zodiak_murderer.jpg",
         stock: 10,
-        currentStock: 5,
+        currentStock: 0,
         categoryType: CategoryType.adultFictions),
     BookModel(
         title: "Surat Kematian (Death Notice) - Buku Kesatu",
@@ -208,10 +208,29 @@ class BookNotifier extends ChangeNotifier {
         information: bookModel.information,
         rate: bookModel.rate,
         image: bookModel.image,
-        currentStock: bookModel.currentStock - 1,
+        currentStock: bookModel.currentStock,
         stock: bookModel.stock,
         categoryType: bookModel.categoryType,
         borrowed: true);
+
+    notifyListeners();
+  }
+
+  // * Notify user
+
+  void changeNotifyBook(BookModel bookModel) {
+    final index = _books.indexOf(bookModel);
+
+    _books[index] = BookModel(
+        title: bookModel.title,
+        summary: bookModel.summary,
+        information: bookModel.information,
+        rate: bookModel.rate,
+        image: bookModel.image,
+        currentStock: bookModel.currentStock,
+        stock: bookModel.stock,
+        categoryType: bookModel.categoryType,
+        borrowed: false);
 
     notifyListeners();
   }

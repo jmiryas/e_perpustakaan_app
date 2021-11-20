@@ -83,7 +83,7 @@ class BookDetailsScreen extends StatelessWidget {
             Consumer<BookNotifier>(builder: (context, data, child) {
               data.borrowedBooks.forEach((item) => print(item.title));
 
-              // print(data.getIsBorrowedBookExist(data.currentBook));
+              print(data.currentBook.currentStock);
 
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -94,28 +94,31 @@ class BookDetailsScreen extends StatelessWidget {
                     ),
                     onPressed: data.currentBook.borrowed
                         ? null
-                        : () {
-                            if (data.isBorrowedBookNotFull) {
-                              data.addBorrowedBook(data.currentBook);
+                        : data.currentBook.currentStock > 0
+                            ? () {
+                                if (data.isBorrowedBookNotFull) {
+                                  data.addBorrowedBook(data.currentBook);
 
-                              data.decreseBookStock(data.currentBook);
+                                  data.decreseBookStock(data.currentBook);
 
-                              data.changeBorrowedBook(data.currentBook);
+                                  data.changeBorrowedBook(data.currentBook);
 
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Buku berhasil ditambahkan!"),
-                                ),
-                              );
-                            } else {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text(
-                                      "Borrowed book has reached the limit!"),
-                                ),
-                              );
-                            }
-                          },
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text("Buku berhasil ditambahkan!"),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          "Borrowed book has reached the limit!"),
+                                    ),
+                                  );
+                                }
+                              }
+                            : null,
                     child: const Text("Borrow"),
                   ),
                   const SizedBox(
@@ -125,7 +128,18 @@ class BookDetailsScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(width / 2 - 30.0, 40.0),
                     ),
-                    onPressed: data.currentBook.borrowed ? null : () {},
+                    onPressed: data.currentBook.borrowed
+                        ? null
+                        : () {
+                            data.changeNotifyBook(data.currentBook);
+
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                    "The notification will be sent when the book ready!"),
+                              ),
+                            );
+                          },
                     child: const Text("Notify Me"),
                   ),
                 ],
