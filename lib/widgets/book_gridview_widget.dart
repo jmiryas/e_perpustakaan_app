@@ -1,3 +1,5 @@
+import 'package:e_perpustakaan_app/widgets/book_card_widget.dart';
+import 'package:e_perpustakaan_app/widgets/book_container_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,15 +34,6 @@ class BookGridviewWidget extends StatelessWidget {
       return result;
     }
 
-    Widget _buildContainerContent(double height, Widget child) {
-      return Container(
-        width: double.infinity,
-        height: height,
-        padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 10.0),
-        child: child,
-      );
-    }
-
     return SliverPadding(
       padding: const EdgeInsets.symmetric(horizontal: 10.0),
       sliver: SliverGrid(
@@ -57,63 +50,25 @@ class BookGridviewWidget extends StatelessWidget {
                   ),
                 );
               },
-              child: Card(
-                child: SizedBox(
-                  height: 350.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        width: double.infinity,
-                        height: 200.0,
-                        color: Colors.grey,
-                        child: Image(
-                          fit: BoxFit.cover,
-                          image: AssetImage(
-                            filteredBooks[index].image,
-                          ),
-                        ),
+              child: BookCardWidget(
+                  image: filteredBooks[index].image,
+                  title: filteredBooks[index].title,
+                  author: filteredBooks[index].title,
+                  bottom: [
+                    BookContainerContentWidget(
+                      height: 25.0,
+                      child: _buildRating(
+                        filteredBooks[index].rate,
                       ),
-                      _buildContainerContent(
-                        45.0,
-                        Text(
-                          filteredBooks[index].title,
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                    ),
+                    BookContainerContentWidget(
+                      height: 25.0,
+                      child: Text(
+                        "Stock: ${filteredBooks[index].currentStock} / ${filteredBooks[index].stock}",
+                        textAlign: TextAlign.start,
                       ),
-                      _buildContainerContent(
-                        30.0,
-                        Text(
-                          filteredBooks[index].information["Author"]!,
-                          textAlign: TextAlign.start,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: const TextStyle(color: Colors.grey),
-                        ),
-                      ),
-                      _buildContainerContent(
-                        25.0,
-                        _buildRating(
-                          filteredBooks[index].rate,
-                        ),
-                      ),
-                      _buildContainerContent(
-                        25.0,
-                        Text(
-                          "Stock: ${filteredBooks[index].currentStock} / ${filteredBooks[index].stock}",
-                          textAlign: TextAlign.start,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                    )
+                  ]),
             );
           },
           childCount: filteredBooks.length,

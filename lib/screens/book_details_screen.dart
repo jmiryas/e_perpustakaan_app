@@ -81,10 +81,6 @@ class BookDetailsScreen extends StatelessWidget {
               height: 5.0,
             ),
             Consumer<BookNotifier>(builder: (context, data, child) {
-              data.borrowedBooks.forEach((item) => print(item.title));
-
-              print(data.currentBook.currentStock);
-
               return Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
