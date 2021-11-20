@@ -130,6 +130,14 @@ class BookNotifier extends ChangeNotifier {
     return _maxBorrowedBook;
   }
 
+  // * Searched book
+
+  final List<BookModel> _searchedBook = [];
+
+  List<BookModel> get searchedBook {
+    return _searchedBook;
+  }
+
   // * Index of books.
 
   void changeCurrentIndex(int newIndex) {
@@ -232,6 +240,23 @@ class BookNotifier extends ChangeNotifier {
         categoryType: bookModel.categoryType,
         borrowed: false);
 
+    notifyListeners();
+  }
+
+  void getSearchedBooks(String searchQuery) {
+    _searchedBook.clear();
+
+    for (int i = 0; i < _books.length; i++) {
+      if (_books[i].title.toLowerCase().contains(searchQuery.toLowerCase())) {
+        _searchedBook.add(_books[i]);
+      }
+    }
+
+    notifyListeners();
+  }
+
+  void clearSearchedBooks() {
+    _searchedBook.clear();
     notifyListeners();
   }
 }

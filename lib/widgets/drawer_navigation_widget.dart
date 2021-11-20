@@ -26,10 +26,12 @@ class _DrawerNavigationWidgetState extends State<DrawerNavigationWidget> {
         children: [
           const DrawerHeader(
             decoration: BoxDecoration(
-                color: Colors.blue,
-                image: DecorationImage(
-                    fit: BoxFit.cover,
-                    image: AssetImage("images/wallpaper.jpg"))),
+              color: Colors.blue,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("images/wallpaper.jpg"),
+              ),
+            ),
             child: Center(
               child: Text(
                 "e-Perpustakaan",

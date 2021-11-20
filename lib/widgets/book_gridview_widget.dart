@@ -1,11 +1,11 @@
-import 'package:e_perpustakaan_app/widgets/book_card_widget.dart';
-import 'package:e_perpustakaan_app/widgets/book_container_content_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/book_notifier.dart';
+import '../widgets/book_card_widget.dart';
 import '../providers/category_notifier.dart';
 import '../screens/book_details_screen.dart';
+import '../widgets/book_container_content_widget.dart';
 
 class BookGridviewWidget extends StatelessWidget {
   const BookGridviewWidget({Key? key}) : super(key: key);

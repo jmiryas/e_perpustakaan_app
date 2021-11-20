@@ -1,3 +1,4 @@
+import 'package:e_perpustakaan_app/screens/search_book_screen.dart';
 import 'package:flutter/material.dart';
 
 class ShowSliverAppBarWidget extends StatelessWidget {
@@ -15,7 +16,14 @@ class ShowSliverAppBarWidget extends StatelessWidget {
         title: Text(title),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchBookScreen(),
+                ),
+              );
+            },
             icon: const Icon(Icons.search),
           ),
         ],
