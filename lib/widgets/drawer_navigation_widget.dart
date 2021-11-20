@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
 
-class DrawerNavigationWidget extends StatelessWidget {
+import '../screens/home_screen.dart';
+import '../screens/about_us_screen.dart';
+
+enum MenuType {
+  library,
+  aboutUs,
+}
+
+class DrawerNavigationWidget extends StatefulWidget {
   const DrawerNavigationWidget({Key? key}) : super(key: key);
+
+  @override
+  State<DrawerNavigationWidget> createState() => _DrawerNavigationWidgetState();
+}
+
+class _DrawerNavigationWidgetState extends State<DrawerNavigationWidget> {
+  MenuType currentMenuType = MenuType.library;
 
   @override
   Widget build(BuildContext context) {
@@ -27,29 +42,81 @@ class DrawerNavigationWidget extends StatelessWidget {
             ),
           ),
           ListTile(
-            title: const Text("Library"),
+            tileColor: currentMenuType == MenuType.library
+                ? Colors.blue
+                : Colors.transparent,
+            title: Row(
+              children: [
+                Icon(
+                  Icons.home,
+                  color: currentMenuType == MenuType.library
+                      ? Colors.white
+                      : Colors.black,
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  "Library",
+                  style: TextStyle(
+                    color: currentMenuType == MenuType.library
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                )
+              ],
+            ),
             onTap: () {
-              Navigator.pop(context);
+              setState(() {
+                currentMenuType = MenuType.library;
+              });
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const HomeScreen(),
+                ),
+              );
             },
           ),
           ListTile(
-            title: const Text("Borrowing History"),
+            tileColor: currentMenuType == MenuType.aboutUs
+                ? Colors.blue
+                : Colors.transparent,
+            title: Row(
+              children: [
+                Icon(
+                  Icons.help,
+                  color: currentMenuType == MenuType.aboutUs
+                      ? Colors.white
+                      : Colors.black,
+                ),
+                const SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  "About Us",
+                  style: TextStyle(
+                    color: currentMenuType == MenuType.aboutUs
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                )
+              ],
+            ),
             onTap: () {
-              Navigator.pop(context);
+              setState(() {
+                currentMenuType = MenuType.aboutUs;
+              });
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AboutUsScreen(),
+                ),
+              );
             },
-          ),
-          ListTile(
-            title: const Text("Waitlist"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text("About Us"),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
+          )
         ],
       ),
     );
